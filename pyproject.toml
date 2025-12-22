@@ -5,9 +5,7 @@ requires-python = ">=3.13"
 dependencies = []
 
 [dependency-groups]
-dev = [
-    "ruff>=0.14.10",
-]
+dev = []
 
 [tool.ruff]
 line-length = 120
