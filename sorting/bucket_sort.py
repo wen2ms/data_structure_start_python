@@ -1,5 +1,10 @@
 import random
 
+# Best: O(n + k) 【0.12, 0.24, 0.37, 0.51, 0.63, 0.88]
+# Worst: O(n + k) [0.91, 0.92, 0.93, 0.94, 0.95]
+# Average: O(n + k)
+# Stable: false
+
 
 def quick_sort(nums):
     def _quick_sort(left, right):
