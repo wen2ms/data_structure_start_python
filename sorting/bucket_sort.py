@@ -1,10 +1,5 @@
 import random
 
-# Best: O(n) [2, 2, 2, 3]
-# Worst: O(n^2) [5, 4, 3, 2, 1]
-# Average: O(nlog(n))
-# Stable: False [2, 2, 1]
-
 
 def quick_sort(nums):
     def _quick_sort(left, right):
@@ -19,26 +14,37 @@ def quick_sort(nums):
                     nums[low], nums[mid] = nums[mid], nums[low]
                     low += 1
                     mid += 1
-                elif nums[mid] > pivot:
+                elif nums[mid] == pivot:
+                    mid += 1
+                else:
                     nums[mid], nums[high] = nums[high], nums[mid]
                     high -= 1
-                else:
-                    mid += 1
             _quick_sort(left, low - 1)
             _quick_sort(high + 1, right)
 
     _quick_sort(0, len(nums) - 1)
 
 
+def bucket_sort(nums):
+    nums_count = len(nums)
+    buckets = [[] for _ in range(nums_count)]
+    for num in nums:
+        index = int(nums_count * num)
+        if index == nums_count:
+            index = nums_count - 1
+        buckets[index].append(num)
+
+    for bucket in buckets:
+        quick_sort(bucket)
+
+    index = 0
+    for bucket in buckets:
+        for num in bucket:
+            nums[index] = num
+            index += 1
+
+
 if __name__ == "__main__":
-    case_1 = [7, 6, 5, 4, 3, 2]
-    case_2 = [8, 2, 1, 3, 4]
-    case_3 = [1, 2, 3]
-
-    quick_sort(case_1)
-    quick_sort(case_2)
-    quick_sort(case_3)
-
-    print(case_1)
-    print(case_2)
-    print(case_3)
+    nums = [0.42, 0.32, 0.23, 0.52, 0.25, 0.47, 0.51]
+    bucket_sort(nums)
+    print(nums)
