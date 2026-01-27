@@ -2,6 +2,9 @@
 
 __pycache__/
 
+# meta files
+foo.py
+
 # MacOS
 .DS_Store
 
