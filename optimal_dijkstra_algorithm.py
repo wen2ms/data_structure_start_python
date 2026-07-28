@@ -1,31 +1,27 @@
 import heapq
 
 
-def dijkstra(source, adjacent):
-    vertex_count = len(adjacent)
+def dijkstra(adjacency: list[list[tuple[int, int]]], source: int) -> tuple[list[float], list[int]]:
+    vertex_count: int = len(adjacency)
     distances = [float("inf")] * vertex_count
-    checked = [False] * vertex_count
-    prev_nodes = [-1] * vertex_count
-
-    distances[source] = 0
-
     minimum_distances = [(0, source)]
+    prev_nodes = [-1] * vertex_count
+    distances[source] = 0
     while minimum_distances:
         minimum_distance, minimum_node = heapq.heappop(minimum_distances)
-        if checked[minimum_node]:
+        if distances[minimum_node] < minimum_distance:
             continue
-        checked[minimum_node] = True
-        for neighbor, weight in adjacent[minimum_node]:
+        for neighbor, weight in adjacency[minimum_node]:
             if minimum_distance + weight < distances[neighbor]:
                 distances[neighbor] = minimum_distance + weight
                 prev_nodes[neighbor] = minimum_node
-                heapq.heappush(minimum_distances, (distances[neighbor], neighbor))
+                heapq.heappush(minimum_distances, (minimum_distance + weight, minimum_node))
     return distances, prev_nodes
 
 
-def generate_path(prev_nodes, destination):
+def make_path(prev_nodes: list[int], destination: int) -> list[int]:
     curr = destination
-    path = []
+    path: list[int] = []
     while curr != -1:
         path.append(curr)
         curr = prev_nodes[curr]
@@ -34,14 +30,13 @@ def generate_path(prev_nodes, destination):
 
 
 if __name__ == "__main__":
-    vertex_count, edge_count = map(int, input().split())
-    adjacent = [[] for _ in range(vertex_count)]
-
-    for _ in range(edge_count):
+    vertex_count, edges_count = map(int, input().split())
+    adjacency: list[list[tuple[int, int]]] = [[] for _ in range(vertex_count)]
+    for _ in range(edges_count):
         start, end, value = map(int, input().split())
-        adjacent[start].append((end, value))
+        adjacency[start].append((end, value))
     source = int(input())
-    distances, prev_nodes = dijkstra(source, adjacent)
+    minimum_distances, prev_nodes = dijkstra(adjacency, source)
     for i in range(vertex_count):
-        path = generate_path(prev_nodes, i)
+        path = make_path(prev_nodes, i)
         print(path)

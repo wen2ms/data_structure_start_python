@@ -1,23 +1,23 @@
-def bisect_left(nums: list, key):
+def bisect_left(nums: list[int], target: int) -> int:
     nums_count = len(nums)
     low = 0
     high = nums_count
     while low < high:
-        mid = (low + high) // 2
-        if nums[mid] < key:
+        mid = low + (high - low) // 2
+        if nums[mid] < target:
             low = mid + 1
         else:
             high = mid
     return low
 
 
-def bisect_right(nums: list, key):
+def bisect_right(nums: list[int], target: int) -> int:
     nums_count = len(nums)
     low = 0
     high = nums_count
     while low < high:
-        mid = (low + high) // 2
-        if nums[mid] <= key:
+        mid = low + (high - low) // 2
+        if nums[mid] <= target:
             low = mid + 1
         else:
             high = mid
